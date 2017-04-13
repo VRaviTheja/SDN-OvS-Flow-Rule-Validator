@@ -8,7 +8,6 @@ import csv
 import p_trie
 
 #device_values = []
-a = {}
 
 f=open("new_flow_table","w+")
 
