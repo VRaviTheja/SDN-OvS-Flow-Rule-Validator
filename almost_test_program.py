@@ -18,6 +18,8 @@ def creating_dict():
         pprint.pprint(device_values)
         return device_values
 
+def subset():
+	print "This is subset"
 
 def check_rule_for_similars(pyt_src,pyt_dst,mydict):
 	print "check_similar started"
