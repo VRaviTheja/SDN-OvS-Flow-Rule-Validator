@@ -92,7 +92,7 @@ def subset_for_port(src_a_start, src_a_end, dst_a_start, dst_a_end, src_b_start,
 		var2 = "intersect"
         return var2
 
-def subset_for_ip(pyt_src, pyt_dst, mydict, r ,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
+def subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
 	'''print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
         print src_same_conflict_rules
 	print src_child_conflict_rules
@@ -107,7 +107,7 @@ def subset_for_ip(pyt_src, pyt_dst, mydict, r ,src_same_conflict_rules,src_child
 	print type(mydict['aasno'])
 	print "@@@@@@@@@@@@@@"
 	'''
-	compare = int(mydict['aasno'])
+	compare = int(gamma['aasno'])
         if (((compare in src_paren_conflict_rules) or (compare in src_same_conflict_rules)) and ((compare in dst_paren_conflict_rules) or (compare in dst_same_conflict_rules))):
                 var1 = "equal"
         elif (((compare in src_child_conflict_rules) or (compare in src_same_conflict_rules)) and ((compare in dst_child_conflict_rules) or (compare in dst_same_conflict_rules))):
@@ -115,11 +115,11 @@ def subset_for_ip(pyt_src, pyt_dst, mydict, r ,src_same_conflict_rules,src_child
         elif ((compare in src_child_conflict_rules) and (compare in dst_paren_conflict_rules)) or ((compare in src_paren_conflict_rules) and  (compare in dst_child_conflict_rules)) :
                 var1 = "intersect"
 # Swapping r gamma
-	temp = r
-	r = mydict
-	mydict = temp
+	temp = mydict
+	mydict = gamma
+	gamma = temp
 # Now calling subset_for port
-        var2 = subset_for_port(r['src_start'], r['src_end'], r['dst_start'], r['dst_end'], mydict['src_start'], mydict['src_end'], mydict['dst_start'], mydict['dst_end'])
+        var2 = subset_for_port(mydict['src_start'], mydict['src_end'], mydict['dst_start'], mydict['dst_end'], gamma['src_start'], gamma['src_end'], gamma['dst_start'], gamma['dst_end'])
 # Comparing port and Ip
 	#return var1, var2
 	print var1, var2
@@ -205,43 +205,45 @@ def check_layer2_layer4(a):
                 return False
 
 '''
-def detection_algorithm(r,gamma,pyt_src, pyt_dst):
+def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
 	if(check_tcp_udp(r)==check_tcp_udp(gamma)):
-		add_rule_to_newft(r)
-		return
-	if(subset(pyt_src,pyt_dst,r,gamma)=="equal"): #do subset here
-		if(r["action "]==gamma["action "]):
+#		add_rule_to_patricia(pyt_src,pyt_dst,mydict)
+		add_rule_to_newft(mydict)
+		return True
+	if(subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)=="equal"): #do subset here
+		if(mydict["action "]==gamma["action "]):
                         print "Conflict is Redundancy : Sent to resolving"
-			conflict_resolver(gamma,r,"redundancy")
+			conflict_resolver(mydict,gamma,"redundancy")
 		else:
-			if(r["priority"]==gamma["priority"]):
+			if(mydict["priority"]==gamma["priority"]):
                                 print "Conflict is Correlation : Sent to resolving"
-				conflict_resolver(r,gamma,"correlation")
+				conflict_resolver(mydict,gamma,"correlation")
 			else:
 				print "Conflict is Generalization : Sent to resolving"
-				conflict_resolver(r,gamma,"correlation")
-	if(subset(pyt_src,pyt_dst,r,gamma)=="reverse"): #do subset here
-		if(r["action "]==gamma["action "]):
+				conflict_resolver(mydict,gamma,"correlation")
+	if(subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)=="reverse"): #do subset here
+		if(mydict["action "]==gamma["action "]):
 			print "Conflict is Redundancy : Sent to resolving"
-			conflict_resolver(r,gamma,"redundancy")
-		elif(r["priority"]==gamma["priority"]):
-			print "Conflict is Correlation : Sent to resolving"
-			conflict_resolver(r,gamma,"correlation")
+			conflict_resolver(mydict,gamma,"redundancy")
 		else:
-                        print "Conflict is Shadowing : Sent to resolving"
-			conflict_resolver(r,gamma,"shadowing")
-	if(subset(pyt_src,pyt_dst,r,gamma)=="intersection"):
-		if(r["action "]==gamma["action "]):
+			if(mydict["priority"]==gamma["priority"]):
+				print "Conflict is Correlation : Sent to resolving"
+				conflict_resolver(mydict,gamma,"correlation")
+			else:
+                        	print "Conflict is Shadowing : Sent to resolving"
+				conflict_resolver(mydict,gamma,"shadowing")
+	if(subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)=="intersection"):
+		if(mydict["action "]==gamma["action "]):
 			print "Conflict is Overlap : Sent to resolving"
-                        conflict_resolver(r,gamma,"overlap")
+                        conflict_resolver(mydict,gamma,"overlap")
 		else :
                         print "Conflict is Correlation : Sent to resolving"
-			conflict_resolver(r,gamma,"correlation")
+			conflict_resolver(mydict,gamma,"correlation")
 '''
 
-def detection_algorithm(r,t,pyt_src,pyt_dst,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
-        print r,t,"\t"
-        rock = subset_for_ip(pyt_src, pyt_dst, r, t,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)
+def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
+        print gamma,mydict,"\t"
+        rock = subset_for_ip(pyt_src, pyt_dst, gamma,mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)
 	print rock
 
 def Reconcile(device_values, mydict):
