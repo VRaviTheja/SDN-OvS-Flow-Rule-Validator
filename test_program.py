@@ -139,7 +139,6 @@ def subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_c
                 final = "intersect"
 	else :
 		final = "intersect"
-	print final,"\n"
 	return final
 
 def check_rule_for_similars(pyt_src,pyt_dst,mydict):
@@ -213,11 +212,16 @@ def check_layer2_layer4(a):
 
 
 def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
-	if(check_tcp_udp(mydict)!=check_tcp_udp(gamma)):
+	
+	final =	subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)
+	
+	print final,"\n"	
+
+	if(check_tcp_udp(mydict) != check_tcp_udp(gamma)):
 		add_rule_to_patricia(pyt_src,pyt_dst,mydict)
 		add_rule_to_newft(mydict)
 		print "Just added"
-	elif(subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)=="equal"): #do subset here
+	elif(final == "equal"): #do subset here
 		if(mydict["action "]==gamma["action "]):
                         print "Conflict is Redundancy : Sent to resolving"
 			conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"redundancy")
@@ -228,7 +232,7 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 			else:
 				print "Conflict is Generalization : Sent to resolving"
 				conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"generalization")
-	elif(subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)=="reverse"): #do subset here
+	elif(final == "reverse"): #do subset here
 		if(mydict["action "]==gamma["action "]):
 			print "Conflict is Redundancy : Sent to resolving"
 			conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"redundancy")
@@ -239,7 +243,7 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 			else:
                         	print "Conflict is Shadowing : Sent to resolving"
 				conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"shadowing")
-	elif(subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)=="intersect"):
+	elif(final == "intersect"):
 		if(mydict["action "]==gamma["action "]):
 			print "Conflict is Overlap : Sent to resolving"
                         conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"overlap")
