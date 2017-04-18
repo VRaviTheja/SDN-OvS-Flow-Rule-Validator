@@ -40,9 +40,9 @@ def detection_algorithm(r,gamma):
 	if(check_tcp_udp(r)==check_tcp_udp(gamma)):
 		add_rule_to_newft(r)
 		return
-	if(r["src_ip"]==gamma["src_ip"] && r["dst_ip"]==gamma["dst_ip"]): #do subset here
+	if(subset(pyt_src,pyt_dst,r,gamma)=="equal"): #do subset here
 		if(r["action "]==gamma["action "]):
-			conflict_resolver(r,gamma,redundancy)
+			conflict_resolver(gamma,r,redundancy)
 			print "Conflict is Redundancy : Sent to resolving"
 		else:
 			if(r["priority"]==gamma["priority"]):
@@ -50,8 +50,9 @@ def detection_algorithm(r,gamma):
 				print "Conflict is Correlation : Sent to resolving"
 			else:
 				print "Conflict is Generalization : Sent to resolving"
-	if(gamma["src_ip"]==r["src_ip"] && gamma["dst_ip"]==r["dst_ip"]): #do subset here
+	if(subset(pyt_src,pyt_dst,r,gamma)=="reverse"): #do subset here
 		if(r["action "]==gamma["action "]):
+			print "Conflict is Redundancy : Sent to resolving"
 			conflict_resolver(r,gamma,redundancy)
 		elif(r["priority"]==gamma["priority"]):
 			conflict_resolver(r,gamma,correlation)
@@ -59,8 +60,20 @@ def detection_algorithm(r,gamma):
 		else:
 			conflict_resolver(r,gamma,shadowing)
 			print "Conflict is Shadowing : Sent to resolving"
-	
-		
+	if(subset(pyt_src,pyt_dst,r,gamma)=="intersection"):
+		if(r["action "]==gamma["action "]):
+			print "Conflict is Overlap : Sent to resolving"
+                        conflict_resolver(r,gamma,overlap)
+		else :
+			conflict_resolver(r,gamma,correlation)
+                        print "Conflict is Correlation : Sent to resolving"
+
+def detect_imbrication(r,device_values):
+	for gamma in device_values:
+		if(r["nw_proto"]==gamma["nw_proto"]):
+			if(subset(pyt_src,pyt_dst,r,gamma)=="intersection"):
+				print "Conflict is Imbrication : Sent to resolving"
+                        	conflict_resolver(r,gamma,imbrication)		
 
 def creating_dict():
 # Calls the csv_dict_list function, passing the named csv
@@ -69,6 +82,17 @@ def creating_dict():
         #pprint.pprint(device_values)
         return device_values
 
+def conflict_resolver(r,gamma,conflict_type):
+	if(conflict_type==shadowing or conflict_type==redundancy):
+		add_rule_to_newft(r)
+	if(conflict_type==overlap):
+		print "Do union here"  #union operation
+	if(conflict_type==imbrication):
+		a=input('Cross layer conflict. Choose one flow rule : ')
+		if(a==r):
+			add_rule_to_newft(r)
+		else :
+			add_rule_to_newft(gamma)
 
 if __name__ == "__main__" :
         device_values = creating_dict()
@@ -77,7 +101,7 @@ if __name__ == "__main__" :
 	r=device_values[0]
 	gamma=device_values[1]
 	f_new=open("new_flow_table","w+")
-	print r["action "]
+	#print r["action "]
 	#add_rule_to_newft(r)
 	#add_rule_to_newft(gamma)
 	detection_algorithm(gamma,r)
