@@ -9,6 +9,5 @@ def csv_dict_list(variables_file):
 	with open(variables_file, newline='') as csvfile:
 		reader = csv.DictReader(csvfile)
 		for row in reader:
-			print(row)
 			dict_list.append(row)	
 	return dict_list

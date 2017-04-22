@@ -17,10 +17,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type, src_inters
                 dst_ip_list=excluding_ip.func_exclude_ip(mydict["dst_ip"],dst_intersection_part)
                 src_port_list=excluding_port.func_exclude_port(list(range(int(mydict["src_start"]),int(mydict["src_end"]))),src_port_intersection_part)
                 dst_port_list=excluding_port.func_exclude_port(list(range(int(mydict["dst_start"]),int(mydict["dst_end"]))),dst_port_intersection_part)
-                add_all_rules_after_excluding.add_all_rules(src_ip_list)
-                add_all_rules_after_excluding.add_all_rules(dst_ip_list)
-                add_all_rules_after_excluding.add_all_rules(src_port_list)
-                add_all_rules_after_excluding.add_all_rules(dst_port_list)
+                add_all_rules_after_excluding.add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list)
 
         elif(conflict_type=="overlap"):
                 a=raw_input('Overlap conflict. Choose one flow rule : ')
