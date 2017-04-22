@@ -22,7 +22,7 @@ def add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict
 					cmydict['dst_end'] = dport[-1]
 					cmydict['aasno'] = Intersection_program.se_number 
 					count = count + 1
-					print(cmydict)
+#					print(cmydict)
 					my_copy = copy.deepcopy(cmydict)
 					great.append(my_copy)
 #					Intersection_program.add_rule_to_patricia(pyt_src,pyt_dst,my_copy)
@@ -33,5 +33,5 @@ def add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict
 #	gift = 564456546454
 #	Getq = Intersection_program.JUST(gift)
 #	print(Getq)
-	print(great)	
+#	print(great)	
 	return great

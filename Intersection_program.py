@@ -467,7 +467,6 @@ def detection(device_values,pyt_src,pyt_dst):
 				print(len(final_device_values))
 				for i in conflict_rule_numbers:
 					it = str(i)
-					print("11111``!!!!!!!!!!!!!!!!!!!!")
 					gamma = next((item for item in final_device_values if item['aasno'] == it))
 					detection_algorithm(gamma, mydict, pyt_src, pyt_dst,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)
 #check_rule_for_similars(pyt_src,pyt_dst,device_values[0])
