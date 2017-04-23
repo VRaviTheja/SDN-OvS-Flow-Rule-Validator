@@ -97,7 +97,6 @@ def subset_for_port(src_a_start, src_a_end, dst_a_start, dst_a_end, src_b_start,
 		var2 = "completely"
 	src_port_intersection_part = src_inter
 	dst_port_intersection_part = dst_inter
-	print("Length of Source port Intersection: ",len(src_port_intersection_part),"|| Length of Source port Intersection: ",len(dst_port_intersection_part))
 	return var2,src_port_intersection_part,dst_port_intersection_part
 
 def subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules):
@@ -126,7 +125,6 @@ def subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_c
 
 	var2,src_port_intersection_part,dst_port_intersection_part = subset_for_port(mydict['src_start'], mydict['src_end'], mydict['dst_start'], mydict['dst_end'], gamma['src_start'], gamma['src_end'], gamma['dst_start'], gamma['dst_end'])	# Now calling subset_for port
 
-	print("Conflict_type in IPs: ", var1, "||  Conflict_type in PORTs: ", var2)
 
 	if var1 == "exact" and var2 == "exact":
 		final = "exact"
@@ -203,7 +201,6 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 
 	final,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part = subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)
 
-	print("Final_conflict_type: ",final)	
 
 	if((check_tcp_udp(mydict) != check_tcp_udp(gamma)) or (final == "different")):
 		print(mydict['aasno'],"has No conflict with ",gamma['aasno'])
@@ -239,11 +236,9 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 				print(mydict['aasno'],"has Intersection_different_action_prompt with same priority conflict with",gamma['aasno'])
 			else:
 				print(mydict['aasno'],"has Intersection_different_action_prompt conflict with",gamma['aasno'])
-	print("---------------------------")
 	return rap
 
 def detection(device_values,pyt_src,pyt_dst):					# Main Detection
-	print("Hello detection starts from here")
 	i = 0
 	rap = 100
 	for mydict in device_values:
@@ -255,7 +250,6 @@ def detection(device_values,pyt_src,pyt_dst):					# Main Detection
 				rap1 = detection_algorithm(gamma, mydict, pyt_src, pyt_dst,src_same_conflict_rules[i],src_child_conflict_rules[i],src_paren_conflict_rules[i],dst_same_conflict_rules[i],dst_child_conflict_rules[i],dst_paren_conflict_rules[i],rap)
 			else:
 				print(mydict['aasno'],"has No conflict with ",gamma['aasno'])
-	print("DETECTION COMPLETE:")
 
 
 if __name__ == "__main__" :

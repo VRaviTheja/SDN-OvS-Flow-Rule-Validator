@@ -1,0 +1,1 @@
+{'dst_mac': '00:00:00:00:00:00', 'src_start': '80', 'dst_ip': '10.211.1.0/24', 'aasno': '8', 'src_end': '86', 'action ': 'allow', 'nw_proto': '6', 'dst_start': '0', 'ingress': '3', 'src_ip': '10.5.0.0/16', 'src_mac': '00:00:00:00:00:00', 'dst_end': '65536', 'priority': '56'}
