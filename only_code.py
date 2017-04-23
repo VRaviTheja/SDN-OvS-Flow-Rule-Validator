@@ -20,7 +20,6 @@ se_number = 20
 with open("new_table99", "w"):
 	pass
 
-
 def WriteDictToCSV(csv_file,csv_columns,dict_data):
     try:
         with open(csv_file, 'w') as csvfile:
