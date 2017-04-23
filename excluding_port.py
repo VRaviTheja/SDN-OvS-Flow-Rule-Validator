@@ -1,7 +1,7 @@
 import ipaddress
 
 def func_exclude_port(super_list,sub_list):
-	print(len(sub_list),"jhgfjsdhfgj")
+	print(len(sub_list))
 	if len(super_list) == len(sub_list):
 		return [super_list]
 	else:

@@ -323,12 +323,12 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"correlation_prompt",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 			else:
 				print("Conflict is Generalization : Sent to resolving")
-				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"generalization",rap)
+				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"generalization",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 #				print("Conflict is Generalization : Sent to resolving")
 #				conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"generalization",src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 	elif(final == "reverse"): #do subset here
 		if(mydict["action "]==gamma["action "]):
-			print("Conflict is Redundancy_Removing : Sent to resolving")
+			print("Conflict is Redundancy_gamma_Removing : Sent to resolving")
 			rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"redundancy_gamma_removing",rap)
 		else:
 			if(mydict["priority"]==gamma["priority"]):
@@ -408,6 +408,7 @@ def delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma):
 def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_intersection_part = None,dst_intersection_part = None,src_port_intersection_part = None,dst_port_intersection_part = None):
 	if(conflict_type=="shadowing"):
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
+		rap = 200
 		print("Hold R")
 	elif(conflict_type=="redundancy_gamma_removing"):
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
@@ -426,6 +427,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 			add_rule_to_newft(mydict)
 		print("Resolved Generalization:")'''
 #		delete_rule_from_pt_ft(pyt_src, pyt_dst, mydict)
+		print(src_intersection_part,dst_intersection_part)
 		rap = 200
 		src_ip_list=excluding_ip.func_exclude_ip(gamma["src_ip"],src_intersection_part)
 		dst_ip_list=excluding_ip.func_exclude_ip(gamma["dst_ip"],dst_intersection_part)
@@ -435,7 +437,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 		for x in f_list:
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 			add_rule_to_newft(x)
-
+		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 	elif(conflict_type=="overlap"):
 		''''a=input('Overlap conflict. Choose one flow rule : ')
 		if(a=="gamma"):
@@ -456,6 +458,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 		for x in f_list:
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 			add_rule_to_newft(x)
+		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 	elif(conflict_type=="correlation_prompt"):
 		'''a=input('Correlation conflict. Choose one flow rule : ')
 		if(a=="gamma"):
@@ -474,6 +477,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 		for x in f_list:
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 			add_rule_to_newft(x)
+		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 		print("Resolved correlation:")	
 	elif(conflict_type=="correlation"):
 #		delete_rule_from_pt_ft(pyt_src, pyt_dst, mydict)
@@ -486,6 +490,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 		for x in f_list:
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 			add_rule_to_newft(x)
+		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 	'''elif(conflict_type=="imbrication"):
 		a=input('Cross layer conflict. Choose one flow rule : ')
 		if(a=="gamma"):
@@ -557,6 +562,6 @@ if __name__ == "__main__" :
 	device_values = creating_dict()
 	pyt_src,pyt_dst = p_trie.patricia()
 	detection(device_values,pyt_src,pyt_dst)
-#	pprint.pprint(final_device_values)
+	pprint.pprint(final_device_values)
 	print(len(final_device_values))
 
