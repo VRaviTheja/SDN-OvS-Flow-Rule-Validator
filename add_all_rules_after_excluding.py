@@ -12,7 +12,7 @@ def add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict
 			for sport in src_port_list:
 				for dport in dst_port_list:
 #					print(len(sport))
-					cmydict = gamma 
+					cmydict = copy.deepcopy(gamma)
 #					print(src_ip_list)
 					cmydict['src_ip'] = sip
 					cmydict['dst_ip'] = dip

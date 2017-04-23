@@ -63,9 +63,10 @@ def finding_patricia_empty(pyt):		#Checking whether patricia tree is empty or no
 		return False
 
 def check_and_delete_in_final_device_values(flow_rule):
-	final_device_values
+#	final_device_values
 	for x in final_device_values:
 		if x['aasno'] == flow_rule['aasno']:
+#			print(flow_rule['aasno'],"Removed")
 			final_device_values.remove(flow_rule)
 			break
 		else:
@@ -75,14 +76,18 @@ def check_and_delete_in_final_device_values(flow_rule):
 def add_rule_to_patricia(pyt_src,pyt_dst,flow_rule):
 	temp = []
 	isthere = 0
+#	print(final_device_values[-1])
 	if len(final_device_values) == 0:
+#		print(isthere,"Not addng length 0000")
 		final_device_values.append(flow_rule)
 	else:
 		for x in final_device_values:
 			if x['aasno'] == flow_rule['aasno']:
 				isthere = 1
+#				print(isthere,"Not addng")
 				break
 		if isthere != 1:
+#			print(isthere,"--- addng")
 			final_device_values.append(flow_rule)
 			isthere = 0
 			
@@ -458,6 +463,8 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 		for x in f_list:
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 			add_rule_to_newft(x)
+#			print(x['aasno'])
+#		print("ADDng FNSHED",gamma['aasno'])
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 	elif(conflict_type=="correlation_prompt"):
 		'''a=input('Correlation conflict. Choose one flow rule : ')
@@ -475,8 +482,11 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 		dst_port_list=excluding_port.func_exclude_port(list(range(int(gamma["dst_start"]),int(gamma["dst_end"]))),dst_port_intersection_part)
 		f_list = add_all_rules_after_excluding.add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict, gamma, pyt_src, pyt_dst)
 		for x in f_list:
+#			print(x)
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 			add_rule_to_newft(x)
+#			print(x['aasno'])
+#		print("ADDng FNSHED",gamma['aasno'])
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 		print("Resolved correlation:")	
 	elif(conflict_type=="correlation"):
