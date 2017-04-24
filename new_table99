@@ -1,1 +1,0 @@
-{'action ': 'allow', 'aasno': '8', 'dst_start': '0', 'src_start': '80', 'dst_ip': '10.211.1.0/24', 'priority': '56', 'src_end': '86', 'src_mac': '00:00:00:00:00:00', 'src_ip': '10.5.0.0/16', 'dst_end': '65536', 'ingress': '3', 'nw_proto': '6', 'dst_mac': '00:00:00:00:00:00'}
