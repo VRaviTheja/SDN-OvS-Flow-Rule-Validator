@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 import copy
-import final_algo
+import Final_algo
 import pprint
-final_algo.se_number = final_algo.se_number + 1
+Final_algo.se_number = Final_algo.se_number + 1
 def add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict, gamma, pyt_src, pyt_dst):
 	count = 0
-	q = final_algo.se_number
+	q = Final_algo.se_number
 	great = []
 	for sip in src_ip_list:
 		for dip in dst_ip_list:
@@ -18,10 +18,10 @@ def add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict
 					cmydict['src_end'] = str(sport[-1])
 					cmydict['dst_start'] = str(dport[0])
 					cmydict['dst_end'] = str(dport[-1])
-					cmydict['aasno'] = str(final_algo.se_number)
+					cmydict['aasno'] = str(Final_algo.se_number)
 					count = count + 1
 					my_copy = copy.deepcopy(cmydict)
 					great.append(my_copy)
-					final_algo.se_number = final_algo.se_number + 1
+					Final_algo.se_number = Final_algo.se_number + 1
 #	print("------",count,src_ip_list,dst_ip_list,len(src_port_list),len(src_port_list),"-------""\n")
 	return great

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import time
 import pytricia
 import python3_reading_file_to_dict 
 import sys
@@ -438,6 +439,8 @@ def detection(device_values,pyt_src,pyt_dst):					# Main Detection
 					add_rule_to_newft(mydict)
 	print("DETECTION COMPLETE:")
 
+start_time = time.time()
+
 
 if __name__ == "__main__" :
 	device_values = creating_dict()
@@ -449,3 +452,4 @@ if __name__ == "__main__" :
 	currentPath = os.getcwd()
 	csv_file = currentPath + "/csv/Outputflows.csv"
 	WriteDictToCSV(csv_file,csv_columns,final_device_values)
+	print("--- %s seconds ---" % (time.time() - start_time))
