@@ -7,7 +7,7 @@ def func_exclude_ip(mydict_ip,intersection_ip):
 	last = []
 	for f in final:
 		h = str(f)
-		print(h,"\t")
+#		print(h,"\t")
 		last.append(h)
 	if len(last) == 0:
 		pot =  str(intersection_ip)
