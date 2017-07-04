@@ -46,9 +46,9 @@ def creating_dict():
 		device_values[i] = x
 		i = i+1
 	temp = []
-	for x in device_values:
+	"""for x in device_values:
 		temp.append(int(x['priority']))
-	print(temp)
+	print(temp)"""
 	return device_values
 
 
@@ -480,10 +480,10 @@ if __name__ == "__main__" :
 	device_values = creating_dict()
 	pyt_src,pyt_dst = p_trie.patricia()
 	detection(device_values,pyt_src,pyt_dst)
-	pprint.pprint(final_device_values)
+#	pprint.pprint(final_device_values)
 	print(len(final_device_values))
-	csv_columns = final_device_values[0].keys()
-	currentPath = os.getcwd()
-	csv_file = currentPath + "/csv/Outputflows.csv"
-	WriteDictToCSV(csv_file,csv_columns,final_device_values)
+#	csv_columns = final_device_values[0].keys()
+#	currentPath = os.getcwd()
+#	csv_file = currentPath + "/csv/Outputflows.csv"
+#	WriteDictToCSV(csv_file,csv_columns,final_device_values)
 	print("--- %s seconds ---" % (time.time() - start_time))

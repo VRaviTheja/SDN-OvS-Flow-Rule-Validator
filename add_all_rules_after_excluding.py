@@ -19,7 +19,8 @@ def add_all_rules(src_ip_list, dst_ip_list, src_port_list, dst_port_list, mydict
 					cmydict['dst_start'] = str(dport[0])
 					cmydict['dst_end'] = str(dport[-1])
 					cmydict['aasno'] = str(Final_algo.se_number)
-					count = count + 1
+#					count = count + 1
+					print(cmydict['aasno'] + "\t")
 					my_copy = copy.deepcopy(cmydict)
 					great.append(my_copy)
 					Final_algo.se_number = Final_algo.se_number + 1
