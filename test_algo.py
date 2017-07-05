@@ -70,11 +70,10 @@ def find_all_parents(pyt,ip):		# Finding list of all parents
 	return parent_all
 
 def check_tcp_udp(flow_rule):		# checking whether tcp or udp
-	if(flow_rule["nw_proto"]=="6"):
-		return "True"
-	else :
-		return "False"
+	return int(flow_rule["nw_proto"])
 
+def check_ingress(flow_rule):
+	return (flow_rule["ingress"])
 
 """def add_rule_to_newft(flow_rule):	#Adding rule to flow
 	with open("new_table99", "a") as myfile:
@@ -274,7 +273,7 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 
 #	print("Final_conflict_type: ",final)	
 
-	if((check_tcp_udp(mydict) != check_tcp_udp(gamma)) or (final == "different")):
+	if((check_tcp_udp(mydict) != check_tcp_udp(gamma)) or (final == "different") or (check_ingress(mydict) != check_ingress(gamma))):
 		add_rule_to_patricia(pyt_src,pyt_dst,mydict)
 #		add_rule_to_newft(mydict)
 #		print("Just added")
