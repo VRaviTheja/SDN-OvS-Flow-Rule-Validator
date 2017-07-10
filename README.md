@@ -3,11 +3,12 @@
 The Validator presented here will go through all the flow rules and modify or remove rules which are redundant or in conflict and will generate a snapshot of conflict-free rules.
 
 Prerequisites:
-python3.4 and above
-Clone pytricia from https://github.com/jsommers/pytricia
-run these two commands:
-a. python setup.py build
-b. python setup.py install
+a. python3.4 or above
+b. sudo apt-get install python3-dev
+c. sudo apt-get install python3-setuptools
+d. Clone pytricia from https://github.com/jsommers/pytricia and run these two commands:
+    i.  python3 setup.py build
+    ii. python3 setup.py install
 
 Usage:
 
@@ -16,7 +17,7 @@ Usage:
 Input should be given as a csv file which contains flow rules, in the order which is given in sample.txt file. The limit of flow rules in the input flow table can be specified by changing the variable se_number in algo.py (default value = 1001)
 The algorithm takes filename as command-line input and process further.
 Example:-
-sudo python3 algo.py sample_input.txt
+sudo python3 algo.py sample_input.csv
 
 Files of core part of algorithm:-
 add_all_rules_after_excluding.py
