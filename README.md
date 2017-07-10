@@ -1,4 +1,5 @@
----------------------Flow Rule Validator-----------------------
+---------------------------------------------------------Flow Rule Validator-----------------------------------------------------------
+
 The Validator presented here will go through all the flow rules and modify or remove rules which are redundant or in conflict and will generate a snapshot of conflict-free rules.
 
 Prerequisites:
