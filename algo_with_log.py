@@ -19,7 +19,7 @@ final_device_values = []
 se_number = 1001 
 
 
-"""def WriteDictToCSV(csv_file,csv_columns,dict_data):
+def WriteDictToCSV(csv_file,csv_columns,dict_data):
     try:
         with open(csv_file, 'w') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -29,7 +29,7 @@ se_number = 1001
     except IOError as err:
             print("I/O error{0}: ".format(err))    
     return
-"""
+
 
 def creating_dict():
 	device_values = python3_reading_file_to_dict.csv_dict_list(sys.argv[1])  # Calls the csv_dict_list function, passing the named csv
@@ -192,7 +192,7 @@ def subset_for_ip(pyt_src, pyt_dst, gamma, mydict ,src_same_conflict_rules,src_c
 
 	var2,src_port_intersection_part,dst_port_intersection_part = subset_for_port(mydict['src_start'], mydict['src_end'], mydict['dst_start'], mydict['dst_end'], gamma['src_start'], gamma['src_end'], gamma['dst_start'], gamma['dst_end'])	# Now calling subset_for port
 
-#	print("Conflict_type in IPs: ", var1, "||  Conflict_type in PORTs: ", var2)
+	print("Conflict_type in IPs: ", var1, "||  Conflict_type in PORTs: ", var2)
 
 	if var1 == "exact" and var2 == "exact":
 		final = "exact"
@@ -271,57 +271,57 @@ def detection_algorithm(gamma,mydict,pyt_src,pyt_dst,src_same_conflict_rules,src
 
 	final,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part = subset_for_ip(pyt_src, pyt_dst, gamma, mydict,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules)
 
-#	print("Final_conflict_type: ",final)	
+	print("Final_conflict_type: ",final)	
 
 	if((check_tcp_udp(mydict) != check_tcp_udp(gamma)) or (final == "different") or (check_ingress(mydict) != check_ingress(gamma))):
 		add_rule_to_patricia(pyt_src,pyt_dst,mydict)
 #		add_rule_to_newft(mydict)
-#		print("Just added")
+		print("Just added")
 	elif(final == "exact"):
 		if(mydict["action "]==gamma["action "]):
-#			print("Conflict is Redundancy : Sent to resolving")
+			print("Conflict is Redundancy : Sent to resolving")
 			rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"redundancy",rap)
 		else:
 			if(mydict["priority"]==gamma["priority"]):
-#				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
+				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"correlation_prompt",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 			else:
-#				print("Conflict is Shielding : Sent to resolving")
+				print("Conflict is Shielding : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"shadowing",rap)
 	elif(final == "equal"): #do subset here
 		if(mydict["action "]==gamma["action "]):
-#			print("Conflict is Redundancy : Sent to resolving")
+			print("Conflict is Redundancy : Sent to resolving")
 			rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"redundancy",rap)
 		else:
 			if(mydict["priority"]==gamma["priority"]):
-#				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
+				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"correlation_prompt",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 			else:
-#				print("Conflict is Abstraction : Sent to resolving")
+				print("Conflict is Abstraction : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"generalization",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 	elif(final == "reverse"): # find Reverse subset here
 		if(mydict["action "]==gamma["action "]):
-#			print("Conflict is Redundancy_gamma_Removing : Sent to resolving")
+			print("Conflict is Redundancy_gamma_Removing : Sent to resolving")
 			rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"redundancy_gamma_removing",rap)
 		else:
 			if(mydict["priority"]==gamma["priority"]):
-#				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
+				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"correlation_prompt",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 			else:
-#				print("Conflict is Shielding : Sent to resolving")
+				print("Conflict is Shielding : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"shadowing",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 	elif(final == "intersect"):
 		if(mydict["action "]==gamma["action "]):
-#			print("Conflict is Intersection_same_action : Sent to resolving")
+			print("Conflict is Intersection_same_action : Sent to resolving")
 			rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"overlap",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 		else:
 			if(mydict["priority"]==gamma["priority"]):
-#				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
+				print("Conflict is Intersection_different_action_prompt : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"correlation_prompt",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
 			else:
-#				print("Conflict is Intersection_different_action : Sent to resolving")
+				print("Conflict is Intersection_different_action : Sent to resolving")
 				rap = conflict_resolver(pyt_src, pyt_dst, mydict,gamma,"correlation",rap,src_intersection_part,dst_intersection_part,src_port_intersection_part,dst_port_intersection_part)
-#	print("---------------------------")
+	print("---------------------------")
 	return rap
 
 
@@ -352,7 +352,7 @@ def delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma):
 				pyt_dst.insert(Ipd,temp)
 			else:
 				pyt_dst.delete(Ipd)
-	"""bad_words = ["'aasno': '"+str(prio)+"',"]	# deleting a flow fro flow table
+	"""removeing_words = ["'aasno': '"+str(prio)+"',"]	# deleting a flow fro flow table
 	with open('new_table99') as oldfile, open('new_table22', 'w') as newfile:
 		for line in oldfile:
 			if not any(bad_word in line for bad_word in bad_words):
@@ -370,16 +370,16 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 	if(conflict_type=="shadowing"):
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 		rap = 200
-#		print("Removed gamma R Holded")
+		print("Removed gamma R Holded")
 
 	elif(conflict_type=="redundancy_gamma_removing"):
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
 		add_rule_to_patricia(pyt_src, pyt_dst, mydict)
 #		add_rule_to_newft(mydict)
-#		print("Gamma Removed R adds")
+		print("Gamma Removed R adds")
 
 	elif(conflict_type == "redundancy"):
-#		print("No adding of R")
+		print("No adding of R")
 		pass
 
 	elif(conflict_type=="generalization"):
@@ -393,7 +393,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 #			add_rule_to_newft(x)
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
-#		print("gamma Splitted")
+		print("gamma Splitted")
 
 	elif(conflict_type=="overlap"):
 		rap = 200
@@ -406,7 +406,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 #			add_rule_to_newft(x)
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
-#		print("gamma Splitted")
+		print("gamma Splitted")
 
 	elif(conflict_type=="correlation_prompt"):
 		rap = 200
@@ -419,7 +419,7 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 #			add_rule_to_newft(x)
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
-#		print("gamma Splitted:")	
+		print("gamma Splitted:")	
 
 	elif(conflict_type=="correlation"):
 		rap = 200
@@ -432,13 +432,13 @@ def conflict_resolver(pyt_src, pyt_dst, mydict, gamma, conflict_type,rap,src_int
 			add_rule_to_patricia(pyt_src, pyt_dst, x)
 #			add_rule_to_newft(x)
 		delete_rule_from_pt_ft(pyt_src, pyt_dst, gamma)
-#		print("gamma Splitted")
+		print("gamma Splitted")
 
 	return rap
 
 
 def detection(device_values,pyt_src,pyt_dst):					# Main Detection
-	print("Hello detection starts from here")
+	print("Detection starts from here")
 	for mydict in device_values :
 		print(mydict['priority'])
 		if check_layer2_layer4(mydict) == True :
@@ -447,7 +447,7 @@ def detection(device_values,pyt_src,pyt_dst):					# Main Detection
 		else :
 #			print(("\nNO Reconc %s" %mydict['aasno']))
 			conflict_rule_numbers,src_same_conflict_rules,src_child_conflict_rules,src_paren_conflict_rules,dst_same_conflict_rules,dst_child_conflict_rules,dst_paren_conflict_rules = check_rule_for_similars(pyt_src,pyt_dst,mydict)     #Gives list of conflict ru
-#			print("Conflicted_numbers: ",conflict_rule_numbers)
+			print("Conflicted_numbers: ",conflict_rule_numbers)
 			if len(conflict_rule_numbers) == 0 :
 				add_rule_to_patricia(pyt_src,pyt_dst,mydict)
 #				add_rule_to_newft(mydict)
@@ -472,17 +472,19 @@ def detection(device_values,pyt_src,pyt_dst):					# Main Detection
 #					add_rule_to_newft(mydict)
 	print("DETECTION COMPLETE:")
 
-start_time = time.time()
 
 
 if __name__ == "__main__" :
 	device_values = creating_dict()
 	pyt_src,pyt_dst = p_trie.patricia()
+	start_time = time.time()
 	detection(device_values,pyt_src,pyt_dst)
-#	pprint.pprint(final_device_values)
+	Total_time = time.time() - start_time
 	print(len(final_device_values))
-#	csv_columns = final_device_values[0].keys()
-#	currentPath = os.getcwd()
-#	csv_file = currentPath + "/csv/Outputflows.csv"
-#	WriteDictToCSV(csv_file,csv_columns,final_device_values)
-	print("--- %s seconds ---" % (time.time() - start_time))
+	pprint.pprint(final_device_values)	
+	csv_columns = final_device_values[0].keys()
+	currentPath = os.getcwd()
+	csv_file = currentPath + "/csv/Outputflows.csv"
+	WriteDictToCSV(csv_file,csv_columns,final_device_values)
+	print("Time taken: --- %s seconds ---" % (Total_time))
+
